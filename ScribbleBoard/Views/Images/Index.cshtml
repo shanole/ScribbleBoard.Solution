@@ -13,9 +13,14 @@
   <p>There are no images yet.</p>
 }
 
+<div class="flexParent"> 
 @foreach (Image image in Model)
 {
-  <h4>@Html.ActionLink(image.Title, "Details", new {id = image.ImageId})</h4>
-  <img src="@image.Data" />
-  <br />
+  <div class="flexChild"> 
+      <h4>@Html.ActionLink(image.Title, "Details", new {id = image.ImageId})</h4>
+      <img src="@image.Data" />
+      <!-- <br /> -->
+  </div>
 }
+
+</div>

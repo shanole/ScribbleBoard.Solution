@@ -1,0 +1,179 @@
+@{
+  Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <style type="text/css">
+    body {
+      margin: 0px;
+      padding: 30px;
+      /* font-family:  */
+      overflow: hidden;
+      background: #313131;
+      display: flex;
+      justify-content: center;
+    }
+
+    .tools {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      margin-top: 15px;
+    }
+
+    .tools .color-field {
+      height: 40px;
+      width: 40px;
+      min-height: 40px;
+      min-width: 40px;
+      cursor: pointer;
+      display: inline-block;
+      cursor: pointer;
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: 2px solid white;
+      align-self: center;
+      margin: 0 15px;
+    }
+
+    .tools .button {
+      align-self: center;
+      width: 100px;
+      height: 40px;
+      border: 2px solid white;
+      cursor: pointer;
+      color: white;
+      background-color: #222;
+      font-weight: bold;
+      margin: 0 15px;
+    }
+
+    color-picker {
+      align-self: center;
+      margin: 0 15px;
+      height: 50px;
+    }
+
+    .pen-range {
+      align-self: center;
+      margin: 0 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="field">
+    <canvas id="canvas"></canvas>
+    <div class="tools">
+      <button type="button" id="btnClear">Clear All</button>
+      <div onClick="change_color(this)" class="color-field" style="background: red;"></div>
+      <div onClick="change_color(this)" class="color-field" style="background: blue;"></div>
+      <div onClick="change_color(this)" class="color-field" style="background: green;"></div>
+      <div onClick="change_color(this)" class="color-field" style="background: yellow;"></div>
+      <input onInput="draw_color = this.value" type="color" class="color-picker">
+      <input type="range" min="1" max="100" class="pen-range" onInput="draw_width = this.value">
+    </div>
+    <br> <br>
+
+
+    @model ScribbleBoard.Models.Image
+    @using (Html.BeginForm())
+    {
+      @Html.HiddenFor(m => m.Data, new { @id = "hiddenData" })
+      @Html.Hidden("CreatedAt", DateTime.Now)
+      @Html.LabelFor(model => model.Description)
+      @Html.TextBoxFor(model => model.Description)
+      @Html.LabelFor(model => model.Title)
+      @Html.TextBoxFor(model => model.Title)
+      <br> <br> <br>
+      <input style="color:white; background: red;" type="submit" id="btnDownload" class="btn btn-default"
+      required="true" />
+    }
+
+    <p>@Html.ActionLink("Go to CReate page","Create", "Image")</p>
+
+    <script type="text/javascript">
+      var myCanvas = document.querySelector('#canvas');  //grab a html tag called canvas - here I use ID- our canvas is palced within a variable
+      myCanvas.width = 400; //(window.innerWidth) - 60; //grab window width and return/assign it to Canvas width
+      myCanvas.height = 400; //0.7 * (window.innerHeight); //grab window height and assign it to canvas height
+      var context = myCanvas.getContext('2d'); //c is for context.Returning a drawing context to a variable (think of c as OBJECT with lots of variables/fucntions)
+      let startBackGroundColor = "white";
+      context.fillStyle = startBackGroundColor;  //default backgroudn color
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      let draw_color = "black";
+      let draw_width = "2";
+      let is_drawing = false;
+
+      function change_color(element) {
+        draw_color = element.style.background;
+      }
+
+      myCanvas.addEventListener("touchstart", start, false);
+      myCanvas.addEventListener("touchmove", draw, false);
+      myCanvas.addEventListener("mousedown", start, false);
+      myCanvas.addEventListener("mousemove", draw, false);
+      myCanvas.addEventListener("touchend", stop, false);
+      myCanvas.addEventListener("mouseup", stop, false);
+      myCanvas.addEventListener("mouseout", stop, false);
+
+      function start(e) {
+        is_drawing = true;
+        context.beginPath();
+        context.moveTo(e.clientX - myCanvas.offsetLeft,
+          e.clientY - myCanvas.offsetTop);
+        e.preventDefault();
+      }
+
+      function draw(e) {
+        if (is_drawing) {
+          context.lineTo(e.clientX - myCanvas.offsetLeft,
+            e.clientY - myCanvas.offsetTop);
+          context.strokeStyle = draw_color;
+          context.lineWidth = draw_width;
+          context.lineCap = "round";
+          context.lineJoin = "round";
+          context.stroke();
+        }
+        e.preventDefault();
+      }
+
+      function stop(e) {
+        if (is_drawing) {
+          context.stroke();
+          context.closePath();
+          is_drawing = false;
+        }
+        e.preventDefault();
+      }
+
+      const btnClear = document.querySelector("#btnClear");
+      btnClear.addEventListener("click", function () {  //listen for the click event and run this function
+        context.fillStyle = startBackGroundColor;
+        context.clearRect(0, 0, myCanvas.width, myCanvas.height);     //feel free to alter- anything less than 900px does not erase the comeplete board
+        context.fillRect(0, 0, myCanvas.width, myCanvas.height);  //if I dont do this canvas gets stuck
+      });
+
+      const btnDownload = document.querySelector("#btnDownload");
+      btnDownload.addEventListener("click", function () {
+        if (window.navigator.msSaveBlob) {  //IE and Edge (PNG only)//method msSaveBlob is exclusive to these browser makes so in essence u are checking if browswer is IE or edge
+          window.navigator.msSaveBlob(msCanvas.msToBlob(), "canvas-image.png") //saving a bloc which would come from msCanvas.msToBlob()
+        }
+        else  //chrome & firefox
+        {
+          const dataUri = myCanvas.toDataURL("image/jpeg");     //converting the canvas content into a data URI and basically a data URI is a base64 encoded string representing the actual content of the canvas 
+          $('#hiddenData').val(dataUri);
+        }
+      });
+    </script>
+  </div>
+</body>
+
+</html>

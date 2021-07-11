@@ -1,0 +1,20 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>Hello! Images be here</h2>
+
+@using ScribbleBoard.Models
+@using System
+@model List<ScribbleBoard.Models.Image>
+
+@if (Model.Count == 0)
+{
+  <p>There are no images yet.</p>
+}
+
+@foreach (Image image in Model)
+{
+  <img src="@image.Data" />
+  <br />
+}

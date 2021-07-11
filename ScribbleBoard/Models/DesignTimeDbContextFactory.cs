@@ -3,23 +3,23 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace TestClient.Models
+namespace ScribbleBoard.Models
 {
-  public class TestClientContextFactory : IDesignTimeDbContextFactory<TestClientContext>
+  public class ScribbleBoardContextFactory : IDesignTimeDbContextFactory<ScribbleBoardContext>
   {
 
-    TestClientContext IDesignTimeDbContextFactory<TestClientContext>.CreateDbContext(string[] args)
+    ScribbleBoardContext IDesignTimeDbContextFactory<ScribbleBoardContext>.CreateDbContext(string[] args)
     {
       IConfigurationRoot configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json")
           .Build();
 
-      var builder = new DbContextOptionsBuilder<TestClientContext>();
+      var builder = new DbContextOptionsBuilder<ScribbleBoardContext>();
 
       builder.UseMySql(configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(configuration["ConnectionStrings:DefaultConnection"]));
 
-      return new TestClientContext(builder.Options);
+      return new ScribbleBoardContext(builder.Options);
     }
   }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace TestClient.Models
+namespace ScribbleBoard.Models
 {
   public class Image
   {

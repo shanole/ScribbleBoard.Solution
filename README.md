@@ -1,7 +1,7 @@
 # _Scribble Board_
 
- * _Scribble Board_
- * _Date Created: July 5th 2021_
+* _Date Created: July 5th 2021_
+* _Last Updated: July 11th 2021_
 
 #### By _Garrett Brown, Shannon Lee, Salim Mayan_
 

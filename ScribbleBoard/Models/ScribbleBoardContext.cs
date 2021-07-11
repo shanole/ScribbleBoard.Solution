@@ -5,6 +5,6 @@ namespace ScribbleBoard.Models
 {
     public class ScribbleBoardContext : IdentityDbContext<ApplicationUser>
     {
-      // Don't change code in here.
+      public TestClientContext(DbContextOptions options) : base(options) { }
     }
 }

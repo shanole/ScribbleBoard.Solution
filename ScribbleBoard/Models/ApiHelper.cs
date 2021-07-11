@@ -8,21 +8,21 @@ namespace ScribbleBoard.Models
     public static async Task<string> GetAllImages()
     {
       RestClient client = new RestClient("http://localhost:2000/api/");
-      RestRequest request = new RestRequest("scribbleboard", Method.GET);
+      RestRequest request = new RestRequest("images", Method.GET);
       var response = await client.ExecuteTaskAsync(request);
       return response.Content;
     }
     public static async Task<string> GetImage(int id)
     {
       RestClient client = new RestClient("http://localhost:2000/api/");
-      RestRequest request = new RestRequest($"scribbleboard/{id}", Method.GET);
+      RestRequest request = new RestRequest($"images/{id}", Method.GET);
       var response = await client.ExecuteTaskAsync(request);
       return response.Content;
     }
     public static async Task PostImage(string newImage)
     {
       RestClient client = new RestClient("http://localhost:2000/api/");
-      RestRequest request = new RestRequest("scribbleboard", Method.POST);
+      RestRequest request = new RestRequest("images", Method.POST);
       request.AddHeader("Content-Type", "application/json");
       request.AddJsonBody(newImage);
       var response = await client.ExecuteTaskAsync(request);
@@ -30,7 +30,7 @@ namespace ScribbleBoard.Models
     public static async Task PutImage(int id, string newImage)
     { 
       RestClient client = new RestClient("http://localhost:2000/api/");
-      RestRequest request = new RestRequest($"scribbleboard/{id}", Method.PUT);
+      RestRequest request = new RestRequest($"images/{id}", Method.PUT);
       request.AddHeader("Content-Type", "application/json");
       request.AddJsonBody(newImage);
       var response = await client.ExecuteTaskAsync(request);
@@ -38,7 +38,7 @@ namespace ScribbleBoard.Models
     public static async Task DeleteImage(int id)
     {
       RestClient client = new RestClient("http://localhost:2000/api/");
-      RestRequest request = new RestRequest($"scribbleboard/{id}", Method.DELETE);
+      RestRequest request = new RestRequest($"images/{id}", Method.DELETE);
       request.AddHeader("Content-Type", "application/json");
       var response = await client.ExecuteTaskAsync(request);
     }

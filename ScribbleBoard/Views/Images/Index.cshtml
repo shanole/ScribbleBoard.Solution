@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-<h1>Hello! Images be here</h2>
+<h1>Scribbles</h2>
 
 @using ScribbleBoard.Models
 @using System
@@ -15,6 +15,7 @@
 
 @foreach (Image image in Model)
 {
+  <h4>@Html.ActionLink(image.Title, "Details", new {id = image.ImageId})</h4>
   <img src="@image.Data" />
   <br />
 }

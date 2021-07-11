@@ -15,7 +15,6 @@
     body {
       margin: 0px;
       padding: 30px;
-      /* font-family:  */
       overflow: hidden;
       background: #313131;
       display: flex;
@@ -83,7 +82,6 @@
     </div>
     <br> <br>
 
-
     @model ScribbleBoard.Models.Image
     @using (Html.BeginForm())
     {
@@ -98,15 +96,15 @@
       required="true" />
     }
 
-    <p>@Html.ActionLink("Go to CReate page","Create", "Image")</p>
+    <p>@Html.ActionLink("Go to Create Page","Create", "Image")</p>
 
     <script type="text/javascript">
-      var myCanvas = document.querySelector('#canvas');  //grab a html tag called canvas - here I use ID- our canvas is palced within a variable
-      myCanvas.width = 400; //(window.innerWidth) - 60; //grab window width and return/assign it to Canvas width
-      myCanvas.height = 400; //0.7 * (window.innerHeight); //grab window height and assign it to canvas height
-      var context = myCanvas.getContext('2d'); //c is for context.Returning a drawing context to a variable (think of c as OBJECT with lots of variables/fucntions)
+      var myCanvas = document.querySelector('#canvas');
+      myCanvas.width = 400;
+      myCanvas.height = 400;
+      var context = myCanvas.getContext('2d');
       let startBackGroundColor = "white";
-      context.fillStyle = startBackGroundColor;  //default backgroudn color
+      context.fillStyle = startBackGroundColor;
       context.fillRect(0, 0, canvas.width, canvas.height);
       let draw_color = "black";
       let draw_width = "2";
@@ -115,14 +113,6 @@
       function change_color(element) {
         draw_color = element.style.background;
       }
-
-      myCanvas.addEventListener("touchstart", start, false);
-      myCanvas.addEventListener("touchmove", draw, false);
-      myCanvas.addEventListener("mousedown", start, false);
-      myCanvas.addEventListener("mousemove", draw, false);
-      myCanvas.addEventListener("touchend", stop, false);
-      myCanvas.addEventListener("mouseup", stop, false);
-      myCanvas.addEventListener("mouseout", stop, false);
 
       function start(e) {
         is_drawing = true;
@@ -154,21 +144,29 @@
         e.preventDefault();
       }
 
+      myCanvas.addEventListener("touchstart", start, false);
+      myCanvas.addEventListener("touchmove", draw, false);
+      myCanvas.addEventListener("mousedown", start, false);
+      myCanvas.addEventListener("mousemove", draw, false);
+      myCanvas.addEventListener("touchend", stop, false);
+      myCanvas.addEventListener("mouseup", stop, false);
+      myCanvas.addEventListener("mouseout", stop, false);
+
       const btnClear = document.querySelector("#btnClear");
       btnClear.addEventListener("click", function () {  //listen for the click event and run this function
         context.fillStyle = startBackGroundColor;
-        context.clearRect(0, 0, myCanvas.width, myCanvas.height);     //feel free to alter- anything less than 900px does not erase the comeplete board
-        context.fillRect(0, 0, myCanvas.width, myCanvas.height);  //if I dont do this canvas gets stuck
+        context.clearRect(0, 0, myCanvas.width, myCanvas.height); 
+        context.fillRect(0, 0, myCanvas.width, myCanvas.height);
       });
 
       const btnDownload = document.querySelector("#btnDownload");
       btnDownload.addEventListener("click", function () {
-        if (window.navigator.msSaveBlob) {  //IE and Edge (PNG only)//method msSaveBlob is exclusive to these browser makes so in essence u are checking if browswer is IE or edge
-          window.navigator.msSaveBlob(msCanvas.msToBlob(), "canvas-image.png") //saving a bloc which would come from msCanvas.msToBlob()
+        if (window.navigator.msSaveBlob) {  //IE and Edge (PNG only)
+          window.navigator.msSaveBlob(msCanvas.msToBlob(), "canvas-image.png")
         }
         else  //chrome & firefox
         {
-          const dataUri = myCanvas.toDataURL("image/jpeg");     //converting the canvas content into a data URI and basically a data URI is a base64 encoded string representing the actual content of the canvas 
+          const dataUri = myCanvas.toDataURL("image/jpeg");
           $('#hiddenData').val(dataUri);
         }
       });

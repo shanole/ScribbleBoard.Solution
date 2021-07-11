@@ -1,0 +1,16 @@
+@{
+  Layout = "_Layout";
+}
+
+@model ScribbleBoard.Models.Image
+@using ScribbleBoard.Models
+
+<h3>@Html.DisplayFor(m => m.Title)</h3>
+<p>Description: @Html.DisplayFor(m => m.Description)</p>
+<p><img src="@Model.Data" /></p>
+
+<hr />
+
+<p>@Html.ActionLink("Return to all images", "Index")</p>
+<p>@Html.ActionLink("Edit image details", "Edit", new {id = Model.ImageId})</p>
+<p>@Html.ActionLink("Delete this image", "Delete", new {id = Model.ImageId})</p>

@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+@model ScribbleBoard.Models.Image
+
+<h4>Edit Image Details</h4>
+
+<p><img src="@Model.Data" /></p>
+
+@using (Html.BeginForm("Details","Images", new {id = Model.ImageId}, FormMethod.Post))
+{
+  @Html.HiddenFor(m => m.ImageId)
+  @Html.HiddenFor(m => m.Data)
+  @Html.Hidden("CreatedAt", DateTime.Now)
+  
+  @Html.LabelFor(model => model.Title)
+  @Html.EditorFor(model => model.Title)
+  @Html.LabelFor(model => model.Description)
+  @Html.EditorFor(model => model.Description)
+  <br> <br> <br>
+  <input type="submit" value = "Save" class="btn btn-default" required="true" />
+}
+
+<hr />
+<p>@Html.ActionLink("Return to all images", "Index")</p>
+<p>@Html.ActionLink("Back to image details", "Details", new {id = Model.ImageId})</p>
+<p>@Html.ActionLink("Delete this image", "Delete", new {id = Model.ImageId})</p>

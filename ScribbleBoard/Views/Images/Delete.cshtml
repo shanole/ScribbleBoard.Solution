@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@using ScribbleBoard.Models;
+@model ScribbleBoard.Models.Image;
+
+<h2>Are you sure you want to delete this?</h2>
+
+<h3>@Html.DisplayFor(model => model.Title) </h3>
+<p><img src="@Model.Data" /></p>
+
+@using (Html.BeginForm())
+{
+<input type="submit" value="Delete" />
+}
+
+
+
+<p>@Html.ActionLink("Back to List", "Index")</p>
+<p>@Html.ActionLink("Home", "Index")

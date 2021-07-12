@@ -6,8 +6,9 @@
 @using ScribbleBoard.Models
 
 <h3>@Html.DisplayFor(m => m.Title)</h3>
-<p>Description: @Html.DisplayFor(m => m.Description)</p>
+<h4>Created by @Html.DisplayFor(m => m.UserName)</h4>
 <p><img src="@Model.Data" /></p>
+<p>Description: @Html.DisplayFor(m => m.Description)</p>
 
 <hr />
 

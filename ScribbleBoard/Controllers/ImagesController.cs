@@ -25,7 +25,7 @@ namespace ScribbleBoard.Controllers
     {
       // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       // var currentUser = await _userManager.FindByIdAsync(userId);
-      // image.User = currentUser;
+      // image.UserName = currentUser.UserName;
       // image.UserId = userId;
       Image.Post(image);
       return RedirectToAction("Index");

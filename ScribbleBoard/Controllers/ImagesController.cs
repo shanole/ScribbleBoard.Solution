@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Security;
 
 namespace ScribbleBoard.Controllers
 {
@@ -50,8 +51,15 @@ namespace ScribbleBoard.Controllers
     public IActionResult Delete(int id)
     {
       var image = Image.GetDetails(id);
-      return View(image);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      if (userId == image.UserId)
+      {
+        return View(image);
+      }
+      // idk some sort of error handling here
+      throw new SecurityException("Unauthorized access!");
     }
+    // need to secure Post routes
     [HttpPost, ActionName("Delete")]
     public IActionResult DeleteConfirmed(int id)
     {
@@ -61,14 +69,32 @@ namespace ScribbleBoard.Controllers
     public IActionResult Edit(int id)
     {
       var image = Image.GetDetails(id);
-      return View(image);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      if (userId == image.UserId)
+      {
+        return View(image);
+      }
+      // idk some sort of error handling here
+      throw new SecurityException("Unauthorized access!");
     }
+    // need to secure Post routes
     [HttpPost]
-    public IActionResult Details(int id, Image image)
+    public async Task<ActionResult> Details(int id, Image image)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      image.UserName = currentUser.UserName;
+      image.UserId = userId;
       image.ImageId = id;
       Image.Put(image);
       return RedirectToAction("Details", id);
+    }
+    // create custom uri
+    [Route("/profiles/{user}")]
+    public IActionResult UserGallery(string user)
+    {
+      var userImages = Image.GetImagesByUser(user);
+      return View(userImages);
     }
   }
 }

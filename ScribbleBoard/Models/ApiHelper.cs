@@ -42,5 +42,12 @@ namespace ScribbleBoard.Models
       request.AddHeader("Content-Type", "application/json");
       var response = await client.ExecuteTaskAsync(request);
     }
+    public static async Task<string> GetImagesByUser(string userName)
+    {
+      RestClient client = new RestClient("http://localhost:2000/api/");
+      RestRequest request = new RestRequest($"images/?userName={userName}", Method.GET);
+      var response = await client.ExecuteTaskAsync(request);
+      return response.Content;
+    }
   }
 }

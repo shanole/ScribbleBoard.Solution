@@ -6,11 +6,22 @@ using System.Linq;
 using System.Diagnostics;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.Security;
 
 namespace ScribbleBoard.Controllers
 {
+  [Authorize]
   public class ImagesController : Controller
   {
+    private readonly UserManager<ApplicationUser> _userManager;
+    public ImagesController(UserManager<ApplicationUser> userManager)
+    {
+      _userManager = userManager;
+    }
+    [AllowAnonymous]
     public ActionResult Index()
     {
       var allImages = Image.GetAll();
@@ -21,25 +32,34 @@ namespace ScribbleBoard.Controllers
       return View();
     }
     [HttpPost]
-    public IActionResult Create(Image image)
+    public async Task<ActionResult> Create(Image image)
     {
-      // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      // var currentUser = await _userManager.FindByIdAsync(userId);
-      // image.User = currentUser;
-      // image.UserId = userId;
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      image.UserName = currentUser.UserName;
+      image.UserId = userId;
       Image.Post(image);
       return RedirectToAction("Index");
     }
+    [AllowAnonymous]
     public IActionResult Details(int id)
     {
       var image = Image.GetDetails(id);
       return View(image);
     }
+    // deleting an editing should only be allowed if you're logged in as the correct user
     public IActionResult Delete(int id)
     {
       var image = Image.GetDetails(id);
-      return View(image);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      if (userId == image.UserId)
+      {
+        return View(image);
+      }
+      // idk some sort of error handling here
+      throw new SecurityException("Unauthorized access!");
     }
+    // need to secure Post routes
     [HttpPost, ActionName("Delete")]
     public IActionResult DeleteConfirmed(int id)
     {
@@ -49,14 +69,32 @@ namespace ScribbleBoard.Controllers
     public IActionResult Edit(int id)
     {
       var image = Image.GetDetails(id);
-      return View(image);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      if (userId == image.UserId)
+      {
+        return View(image);
+      }
+      // idk some sort of error handling here
+      throw new SecurityException("Unauthorized access!");
     }
+    // need to secure Post routes
     [HttpPost]
-    public IActionResult Details(int id, Image image)
+    public async Task<ActionResult> Details(int id, Image image)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      image.UserName = currentUser.UserName;
+      image.UserId = userId;
       image.ImageId = id;
       Image.Put(image);
       return RedirectToAction("Details", id);
+    }
+    // create custom uri
+    [Route("/profiles/{user}")]
+    public IActionResult UserGallery(string user)
+    {
+      var userImages = Image.GetImagesByUser(user);
+      return View(userImages);
     }
   }
 }

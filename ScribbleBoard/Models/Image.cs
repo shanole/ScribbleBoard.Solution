@@ -13,6 +13,8 @@ namespace ScribbleBoard.Models
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; }
     // public virtual ApplicationUser User { get; set; }
+    public string UserId {get; set;}
+    public string UserName {get; set;}
     public static List<Image> GetAll()
     {
       var apiCallTask = ApiHelper.GetAllImages();
@@ -45,5 +47,14 @@ namespace ScribbleBoard.Models
     {
       var apiCallTask = ApiHelper.DeleteImage(id);
     }
+    public static List<Image> GetImagesByUser(string userName)
+    {
+      var apiCallTask = ApiHelper.GetImagesByUser(userName);
+      var result = apiCallTask.Result;
+
+      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
+      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse.ToString());
+      return imagesList;
+    } 
   }
 }

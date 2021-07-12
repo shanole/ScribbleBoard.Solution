@@ -6,11 +6,21 @@ using System.Linq;
 using System.Diagnostics;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ScribbleBoard.Controllers
 {
+  [Authorize]
   public class ImagesController : Controller
   {
+    private readonly UserManager<ApplicationUser> _userManager;
+    public ImagesController(UserManager<ApplicationUser> userManager)
+    {
+      _userManager = userManager;
+    }
+    [AllowAnonymous]
     public ActionResult Index()
     {
       var allImages = Image.GetAll();
@@ -21,20 +31,22 @@ namespace ScribbleBoard.Controllers
       return View();
     }
     [HttpPost]
-    public IActionResult Create(Image image)
+    public async Task<ActionResult> Create(Image image)
     {
-      // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      // var currentUser = await _userManager.FindByIdAsync(userId);
-      // image.UserName = currentUser.UserName;
-      // image.UserId = userId;
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      image.UserName = currentUser.UserName;
+      image.UserId = userId;
       Image.Post(image);
       return RedirectToAction("Index");
     }
+    [AllowAnonymous]
     public IActionResult Details(int id)
     {
       var image = Image.GetDetails(id);
       return View(image);
     }
+    // deleting an editing should only be allowed if you're logged in as the correct user
     public IActionResult Delete(int id)
     {
       var image = Image.GetDetails(id);

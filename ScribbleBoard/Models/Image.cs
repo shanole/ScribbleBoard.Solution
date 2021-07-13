@@ -15,9 +15,11 @@ namespace ScribbleBoard.Models
     // public virtual ApplicationUser User { get; set; }
     public string UserId {get; set;}
     public string UserName {get; set;}
-    public static List<Image> GetAll()
+    // this will have parameters for pageSize, pageNumber
+    public static List<Image> GetAll(int pageNumber, int pageSize)
     {
-      var apiCallTask = ApiHelper.GetAllImages();
+      // this will also have parameters for pageSize, pageNumber
+      var apiCallTask = ApiHelper.GetAllImages(pageNumber, pageSize);
       var result = apiCallTask.Result;
 
       JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);

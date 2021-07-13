@@ -70,7 +70,8 @@ namespace ScribbleBoard.Controllers
         public async Task<ActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index");
+            // maybe create a LogOff confirmed page?
+            return RedirectToAction("Index","Home");
         }
     }
 }

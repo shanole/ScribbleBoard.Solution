@@ -5,10 +5,17 @@ namespace ScribbleBoard.Models
 {
   class ApiHelper
   {
-    public static async Task<string> GetAllImages()
+    // public static async Task<string> GetAllImages()
+    // {
+    //   RestClient client = new RestClient("http://localhost:2000/api/");
+    //   RestRequest request = new RestRequest("images", Method.GET);
+    //   var response = await client.ExecuteTaskAsync(request);
+    //   return response.Content;
+    // }
+    public static async Task<string> GetAllImages(int pageNumber, int pageSize)
     {
       RestClient client = new RestClient("http://localhost:2000/api/");
-      RestRequest request = new RestRequest("images", Method.GET);
+      RestRequest request = new RestRequest($"images?PageNumber={pageNumber}&PageSize={pageSize}", Method.GET);
       var response = await client.ExecuteTaskAsync(request);
       return response.Content;
     }

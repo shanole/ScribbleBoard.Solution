@@ -70,7 +70,7 @@
 
   </style>
 </head>
-
+  <h2>Draw new scribble</h2>
   <div class="field">
     <canvas id="canvas"></canvas>
     <div class="tools">
@@ -86,6 +86,7 @@
 
     <div class ="col-6 formClass">
         @model ScribbleBoard.Models.Image
+        
         @using (Html.BeginForm())
         {
         @Html.HiddenFor(m => m.Data, new { @id = "hiddenData" })

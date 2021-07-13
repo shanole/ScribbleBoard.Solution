@@ -118,6 +118,7 @@ _There are currently no known bugs._
 ## Further Exploration
 * JWT authorization
 * API pagination
+* Hosting
 
 ## Support and contact details
 

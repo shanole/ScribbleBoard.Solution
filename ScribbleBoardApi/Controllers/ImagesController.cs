@@ -44,14 +44,15 @@ namespace ScribbleBoardApi.Controllers
       return CreatedAtAction(nameof(GetImage), new {id = image.ImageId}, image);
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Image>> GetImage(int id)
+    public async Task<IActionResult> GetImage(int id)
     {
       Image img = await _db.Images.FindAsync(id);
       if (img == null)
       {
         return NotFound();
       }
-      return img;
+      // maybe also put this in a wrapper?
+      return Ok(new Response<Image>(img));
     }
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Image image)

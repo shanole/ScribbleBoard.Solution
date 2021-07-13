@@ -31,7 +31,7 @@ namespace ScribbleBoard.Models
       var result = apiCallTask.Result;
 
       JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
-      Image thisImage = JsonConvert.DeserializeObject<Image>(jsonResponse.ToString());
+      Image thisImage = JsonConvert.DeserializeObject<Image>(jsonResponse["data"].ToString());
       return thisImage;
     }
     public static void Post(Image image)

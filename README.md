@@ -14,7 +14,7 @@ Users can then save and display their images, along with data such as title and 
 
 
 <details>
-    <summary><span style="color:red"><strong>Expand to Read User Stories</strong></style></summary>
+    <summary><span style="color:red"><strong>Expand to Read User Stories</strong></summary>
 
 1. User can log into their own art profile.
 2. User can create new canvases and draw/erase on that canvas.

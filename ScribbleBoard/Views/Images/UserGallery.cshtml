@@ -1,18 +1,18 @@
 @using ScribbleBoard.Models
 @model List<ScribbleBoard.Models.Image>
 
-@* <h1>Gallery for @Model[0].UserName</h1> *@
+<h1>@ViewBag.UserName's Gallery</h1>
 
 @if (Model.Count == 0)
 {
   <p>There are no images yet.</p>
 }
 
-<div class="flexParent"> 
+<div class="flexBox"> 
 @foreach (Image image in Model)
 {
-  <div class="flexChild"> 
-      <h4>@Html.ActionLink(image.Title, "Details", new {id = image.ImageId}) by @image.UserName</h4>
+  <div> 
+      <h4>@Html.ActionLink(image.Title, "Details", new {id = image.ImageId})</h4>
       <img src="@image.Data" />
       <!-- <br /> -->
   </div>

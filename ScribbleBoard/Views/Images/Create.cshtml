@@ -2,22 +2,12 @@
   Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canvas</title>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <style type="text/css">
     body {
       margin: 0px;
-      padding: 30px;
-      overflow: hidden;
-      /* background: #313131; */
-      display: flex;
       justify-content: center;
     }
 
@@ -81,11 +71,10 @@
   </style>
 </head>
 
-<body>
   <div class="field">
     <canvas id="canvas"></canvas>
     <div class="tools">
-      <button type="button" id="btnClear">Clear All</button>
+      <button type="button" class="btn btn-secondary" id="btnClear">Clear All</button>
       <div onClick="change_color(this)" class="color-field" style="background: red;"></div>
       <div onClick="change_color(this)" class="color-field" style="background: blue;"></div>
       <div onClick="change_color(this)" class="color-field" style="background: green;"></div>
@@ -106,13 +95,11 @@
         @Html.LabelFor(model => model.Description)
         @Html.TextAreaFor(model => model.Description, new { @class = "form-control", required="required"})
         <br>
-        <br> <br>
-        <input style="color:white; background: red;" type="submit" id="btnDownload" class="btn btn-default"
-        required="true" />
+        <input type="submit" id="btnDownload" class="btn btn-success" required="true" />
         }
-        <br> <br>
+        <hr/>
+        <p>@Html.ActionLink("Back to all scribbles", "Index")</p>
     </div>
-    <p>@Html.ActionLink("Go to Create Page","Create", "Image")</p>
 
     <script type="text/javascript">
       var myCanvas = document.querySelector('#canvas');
@@ -188,6 +175,3 @@
       });
     </script>
   </div>
-</body>
-
-</html>

@@ -14,9 +14,9 @@ namespace ScribbleBoard.Models
     public DateTime CreatedAt { get; set; }
     public string UserId {get; set;}
     public string UserName {get; set;}
-    public static List<Image> GetAll(int pageNumber, int pageSize)
+    public static List<Image> GetAll(int pageNumber, int pageSize, string userName)
     {
-      var apiCallTask = ApiHelper.GetAllImages(pageNumber, pageSize);
+      var apiCallTask = ApiHelper.GetAllImages(pageNumber, pageSize, userName);
       var result = apiCallTask.Result;
 
       JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
@@ -48,14 +48,5 @@ namespace ScribbleBoard.Models
     {
       var apiCallTask = ApiHelper.DeleteImage(id);
     }
-    public static List<Image> GetImagesByUser(string userName)
-    {
-      var apiCallTask = ApiHelper.GetImagesByUser(userName);
-      var result = apiCallTask.Result;
-
-      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse.ToString());
-      return imagesList;
-    } 
   }
 }

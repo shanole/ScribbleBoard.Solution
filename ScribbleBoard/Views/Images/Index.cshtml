@@ -23,3 +23,31 @@
 }
 </div>
 Page @(Model.TotalPages < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.TotalPages
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+
+    @if (Model.HasPrevious)
+    {
+     <li class="page-item"><a class="page-link" href="@Url.Action("Index", new {page = Model.CurrentPage - 1})">Previous</a></li> 
+    }
+    else
+    {
+      <li class="page-item"><a class="page-link" href="@Url.Action("Index", new {page = 1})">Previous</a></li>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+    <li class="page-item"><a class="page-link" href="@Url.Action("Index", new {page = i})">@i</a></li>
+    }
+
+    @if (Model.HasNext)
+    {
+     <li class="page-item"><a class="page-link" href="@Url.Action("Index", new {page = Model.CurrentPage + 1})">Next</a></li> 
+    }
+    else
+    {
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    }
+  </ul>
+</nav>

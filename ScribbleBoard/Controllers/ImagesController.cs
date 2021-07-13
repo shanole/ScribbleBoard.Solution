@@ -26,7 +26,7 @@ namespace ScribbleBoard.Controllers
     public ActionResult Index(int? page)
     {
       int pageNumber = (page ?? 1);
-      var allImages = Image.GetAll(pageNumber,9);
+      var allImages = Image.GetAll(pageNumber,9, null);
       // and then it will return a PagedList which has .PageCount and .PageNumber properties
       return View(allImages);
     }
@@ -95,9 +95,10 @@ namespace ScribbleBoard.Controllers
     // create custom uri
     [AllowAnonymous]
     [Route("/profiles/{user}")]
-    public IActionResult UserGallery(string user)
+    public IActionResult UserGallery(int? page, string user)
     {
-      var userImages = Image.GetImagesByUser(user);
+      int pageNumber = (page ?? 1);
+      var userImages = Image.GetAll(pageNumber, 9, user);
       ViewBag.UserName = user;
       return View(userImages);
     }

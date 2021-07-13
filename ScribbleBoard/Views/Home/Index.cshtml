@@ -3,20 +3,21 @@
 }
 
 
-<h1 class="display-4">ScribbleBoard</h1>
+<img src="~/img/banner.gif" />
+
 <div class="customAnchor">
     <p>Welcome to ScribbleBoard, where you can doodle on the walls of the Internet. </p>
-    <p>@Html.ActionLink("See all scribbles", "Index", "Images")</p>
-    <p>@Html.ActionLink("Create a new scribble", "Create", "Images")</p>
+    <p><img src="~/img/gallery.gif" class="icon"/> @Html.ActionLink("See all scribbles", "Index", "Images")</p>
+    <p><img src="~/img/scribble.gif" class="icon"/> @Html.ActionLink("Create a new scribble", "Create", "Images")</p>
 
     @if (!User.Identity.IsAuthenticated)
     {
-        <p>@Html.ActionLink("Create your account", "Register", "Account")</p>
-        <p>@Html.ActionLink("Log into an existing account", "Login", "Account")</p>
+        <p><img src="~/img/smile.gif" class="icon"/> @Html.ActionLink("Create your account", "Register", "Account")</p>
+        <p><img src="~/img/heart.gif" class="icon"/> @Html.ActionLink("Log into an existing account", "Login", "Account")</p>
     }
     else
     {
-        <p>@Html.ActionLink("Manage your account","Index","Account")</p>
+        <p><img src="~/img/smile.gif" class="icon"/> @Html.ActionLink("Manage your account","Index","Account")</p>
         @using (Html.BeginForm("LogOff", "Account"))
         {
             <input type="submit" class="btn btn-primary" value="Log out" />

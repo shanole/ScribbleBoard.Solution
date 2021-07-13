@@ -6,10 +6,10 @@
 <h1>ScribbleBoard Account</h1>
 @if (User.Identity.IsAuthenticated)
 {
-    <h2>Hello @User.Identity.Name!</h2>
+    <h2>Hello, @User.Identity.Name!</h2>
 
-    <p>@Html.ActionLink("Create a new scribble", "Create", "Images")</p>
-    <p>@Html.ActionLink("See your gallery","UserGallery","Images", new {user = User.Identity.Name})</p>
+    <p><img src="~/img/scribble.gif" class="icon"/> @Html.ActionLink("Create a new scribble", "Create", "Images")</p>
+    <p><img src="~/img/gallery.gif" class="icon"/> @Html.ActionLink("See your gallery","UserGallery","Images", new {user = User.Identity.Name})</p>
 
     @using (Html.BeginForm("LogOff", "Account"))
     {
@@ -18,6 +18,6 @@
 }
 else
 {
-    <p>@Html.ActionLink("Register for a new account", "Register")</p>
-    <p>@Html.ActionLink("Log in to an existing account", "Login")</p>
+    <p><img src="~/img/smile.gif" class="icon"/> @Html.ActionLink("Register for a new account", "Register")</p>
+    <p><img src="~/img/heart.gif" class="icon"/> @Html.ActionLink("Log in to an existing account", "Login")</p>
 }

@@ -22,20 +22,20 @@ namespace ScribbleBoardApi.Controllers
     {
       _db = db;
     }
-    // [HttpGet]
-    // public async Task<ActionResult<IEnumerable<Image>>> Get(string userId, string userName)
-    // {
-    //   var query = _db.Images.AsQueryable();
-    //   if (userId != null)
-    //   {
-    //     query = query.Where(e => e.UserId == userId);
-    //   }
-    //   if (userName != null)
-    //   {
-    //     query = query.Where(e => e.UserName == userName);
-    //   }
-    //   return await query.ToListAsync();
-    // }
+    [HttpGet]
+    public async Task<IActionResult> Get([FromQuery] PaginationFilter filter)
+    {
+      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.UserName);
+      var query = _db.Images.AsQueryable();
+      if (validFilter.UserName != null)
+      {
+        query = query.Where(e => e.UserName == validFilter.UserName);
+      }
+      //// USING PAGEDRESPONSE WRAPPER
+      var totalRecords = query.Count();
+      var images = await query.Skip((validFilter.PageNumber - 1) * validFilter.PageSize).Take(validFilter.PageSize).ToListAsync();
+      return Ok(new PagedResponse<List<Image>>(images, totalRecords, validFilter.PageNumber, validFilter.PageSize));
+    }
     [HttpPost]
     public async Task<ActionResult<Image>> Post(Image image)
     {
@@ -116,20 +116,6 @@ namespace ScribbleBoardApi.Controllers
     {
       return _db.Images.Any(e => e.ImageId == id);
     }
-    // pagination experiment
-    [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationFilter filter)
-    {
-      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.UserName);
-      var query = _db.Images.AsQueryable();
-      if (validFilter.UserName != null)
-      {
-        query = query.Where(e => e.UserName == validFilter.UserName);
-      }
-      //// USING PAGEDRESPONSE WRAPPER
-      var totalRecords = query.Count();
-      var images = await query.Skip((validFilter.PageNumber - 1) * validFilter.PageSize).Take(validFilter.PageSize).ToListAsync();
-      return Ok(new PagedResponse<List<Image>>(images, totalRecords, validFilter.PageNumber, validFilter.PageSize));
-    }
+
   }
 }

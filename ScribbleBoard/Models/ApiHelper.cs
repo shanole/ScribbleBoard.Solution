@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using RestSharp;
-using System;
 
 namespace ScribbleBoard.Models
 {

@@ -1,16 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using ScribbleBoard.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using System.Security;
-// using X.PagedList;
 
 namespace ScribbleBoard.Controllers
 {
@@ -27,7 +20,6 @@ namespace ScribbleBoard.Controllers
     {
       int pageNumber = (page ?? 1);
       var allImages = Image.GetAll(pageNumber,9, null);
-      // and then it will return a PagedList which has .PageCount and .PageNumber properties
       return View(allImages);
     }
     public IActionResult Create()
@@ -92,7 +84,6 @@ namespace ScribbleBoard.Controllers
       Image.Put(image);
       return RedirectToAction("Details", id);
     }
-    // create custom uri
     [AllowAnonymous]
     [Route("/profiles/{user}")]
     public IActionResult UserGallery(int? page, string user)

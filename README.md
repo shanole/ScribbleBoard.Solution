@@ -130,7 +130,7 @@ _For assistance, please contact:_
 ## Technologies Used
 
 <details>
-    <summary><strong>Scribble Board</strong></summary>
+    <summary><strong>Scribble Board API</strong></summary>
 
 * _Github, Visusal Studio Code_
 * _C#, Markdown_
@@ -142,7 +142,7 @@ _For assistance, please contact:_
 </details>
 
 <details>
-    <summary><strong>Scribble Board API</strong></summary>
+    <summary><strong>Scribble Board Client</strong></summary>
 
 * _Github, Visual Studio Code_
 * _C#, Markdown_

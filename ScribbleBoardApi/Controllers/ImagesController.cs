@@ -19,20 +19,20 @@ namespace ScribbleBoardApi.Controllers
     {
       _db = db;
     }
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Image>>> Get(string userId, string userName)
-    {
-      var query = _db.Images.AsQueryable();
-      if (userId != null)
-      {
-        query = query.Where(e => e.UserId == userId);
-      }
-      if (userName != null)
-      {
-        query = query.Where(e => e.UserName == userName);
-      }
-      return await query.ToListAsync();
-    }
+    // [HttpGet]
+    // public async Task<ActionResult<IEnumerable<Image>>> Get(string userId, string userName)
+    // {
+    //   var query = _db.Images.AsQueryable();
+    //   if (userId != null)
+    //   {
+    //     query = query.Where(e => e.UserId == userId);
+    //   }
+    //   if (userName != null)
+    //   {
+    //     query = query.Where(e => e.UserName == userName);
+    //   }
+    //   return await query.ToListAsync();
+    // }
     [HttpPost]
     public async Task<ActionResult<Image>> Post(Image image)
     {
@@ -112,6 +112,23 @@ namespace ScribbleBoardApi.Controllers
    private bool ImageExists(int id)
     {
       return _db.Images.Any(e => e.ImageId == id);
+    }
+    // pagination experiment
+    [HttpGet]
+    // [Route("[action]")]
+    public async Task<IActionResult> Get([FromQuery] PaginationFilter filter)
+    {
+      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.UserName);
+      var query = _db.Images.AsQueryable();
+      if (validFilter.UserName != null)
+      {
+        query = query.Where(e => e.UserName == validFilter.UserName);
+      }
+      var pagedData = await query.Skip((validFilter.PageNumber-1) * validFilter.PageSize)
+                            .Take(validFilter.PageSize)
+                            .ToListAsync();
+      // returns a List
+      return Ok(pagedData);
     }
   }
 }

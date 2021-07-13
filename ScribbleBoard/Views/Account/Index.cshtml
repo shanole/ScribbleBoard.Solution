@@ -3,19 +3,21 @@
 }
 
 @using System.Security.Claims
-
-<h2>Authentication with Identity</h2>
-<hr />
+<h1>ScribbleBoard Account</h1>
 @if (User.Identity.IsAuthenticated)
 {
-    <p>Hello @User.Identity.Name!</p>
+    <h2>Hello @User.Identity.Name!</h2>
+
+    <p>@Html.ActionLink("Create a new scribble", "Create", "Images")</p>
+    <p>@Html.ActionLink("See your gallery","UserGallery","Images", new {user = User.Identity.Name})</p>
+
     @using (Html.BeginForm("LogOff", "Account"))
     {
-        <input type="submit" class="btn btn-default" value="Log out" />
+        <input type="submit" class="btn btn-primary" value="Log out" />
     }
 }
 else
 {
-    <p>@Html.ActionLink("Register", "Register")</p>
-    <p>@Html.ActionLink("Log in", "Login")</p>
+    <p>@Html.ActionLink("Register for a new account", "Register")</p>
+    <p>@Html.ActionLink("Log in to an existing account", "Login")</p>
 }

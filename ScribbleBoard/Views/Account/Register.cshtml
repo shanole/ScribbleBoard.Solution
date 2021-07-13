@@ -12,16 +12,19 @@
 @using (Html.BeginForm("Register","Account",FormMethod.Post))
 {
   @Html.LabelFor(user => user.Email)
-  @Html.TextBoxFor(user => user.Email)
+  @Html.TextBoxFor(user => user.Email, new {@class = "form-control"})
 
   @Html.LabelFor(user => user.UserName)
-  @Html.TextBoxFor(user => user.UserName)
+  @Html.TextBoxFor(user => user.UserName, new {@class = "form-control"})
 
   @Html.LabelFor(user => user.Password)
-  @Html.PasswordFor(user => user.Password)
+  @Html.PasswordFor(user => user.Password, new {@class = "form-control"})
 
   @Html.LabelFor(user => user.ConfirmPassword)
-  @Html.PasswordFor(user => user.ConfirmPassword)
-
-  <input type="submit" value="Register">
+  @Html.PasswordFor(user => user.ConfirmPassword, new {@class = "form-control"})
+  <br />
+  <input type="submit" class="btn btn-success" value="Register">
 }
+<hr />
+<p>Already have an account? @Html.ActionLink("Log in here","Log in")</p>
+

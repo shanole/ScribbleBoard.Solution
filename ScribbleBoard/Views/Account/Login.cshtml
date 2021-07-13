@@ -11,10 +11,12 @@
 @using (Html.BeginForm())
 {
     @Html.LabelFor(m => m.Email)
-    @Html.TextBoxFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
 
     @Html.LabelFor(m => m.Password)
-    @Html.PasswordFor(m => m.Password)
-
-    <input type="submit" value="Log in" class="btn btn-default" />
+    @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+    <br />
+    <input type="submit" value="Log in" class="btn btn-success" />
 }
+<hr />
+<p>Don't have an account? @Html.ActionLink("Register for an account here","Register")</p>

@@ -57,7 +57,7 @@ namespace ScribbleBoard.Controllers
         return View(image);
       }
       // idk some sort of error handling here
-      throw new SecurityException("Unauthorized access!");
+      return View("Error");
     }
     // need to secure Post routes
     [HttpPost, ActionName("Delete")]
@@ -75,7 +75,7 @@ namespace ScribbleBoard.Controllers
         return View(image);
       }
       // idk some sort of error handling here
-      throw new SecurityException("Unauthorized access!");
+      return View("Error");
     }
     // need to secure Post routes
     [HttpPost]
@@ -90,10 +90,12 @@ namespace ScribbleBoard.Controllers
       return RedirectToAction("Details", id);
     }
     // create custom uri
+    [AllowAnonymous]
     [Route("/profiles/{user}")]
     public IActionResult UserGallery(string user)
     {
       var userImages = Image.GetImagesByUser(user);
+      ViewBag.UserName = user;
       return View(userImages);
     }
   }

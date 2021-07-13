@@ -1,9 +1,8 @@
 @{
-  Layout = "_Layout";
+    ViewData["Title"] = Model.Title;
 }
 
 @model ScribbleBoard.Models.Image
-@using ScribbleBoard.Models
 
 <h3>@Html.DisplayFor(m => m.Title)</h3>
 <h5>Created by @Html.ActionLink(Model.UserName, "UserGallery","Images", new {user = Model.UserName})</h5>

@@ -5,8 +5,7 @@
 <h1>Scribbles</h2>
 
 @using ScribbleBoard.Models
-@using X.PagedList.Mvc.Core
-@model X.PagedList.IPagedList<ScribbleBoard.Models.Image>
+@model PagedList<ScribbleBoard.Models.Image>
 
 @if (Model.Count == 0)
 {
@@ -23,6 +22,4 @@
   </div>
 }
 </div>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-//fix this thing
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+Page @(Model.TotalPages < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.TotalPages

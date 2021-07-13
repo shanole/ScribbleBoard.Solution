@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using ScribbleBoardApi.Models; 
 
-namespace ScribbleBoardApi.Models
+namespace ScribbleBoard.Models
 {
   public class PagedList<T> : List<T>
 {
@@ -23,18 +22,6 @@ namespace ScribbleBoardApi.Models
         CurrentPage = pageNumber;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         AddRange(items);
-    }
-    public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
-    {
-        var count = source.Count();
-        var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-        return new PagedList<T>(items, count, pageNumber, pageSize);
-    }
-    public static async Task<PagedList<T>> ToPagedListAsync(IQueryable<T> source, int pageNumber, int pageSize)
-    {
-        var count = source.Count();
-        var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-        return new PagedList<T>(items, count, pageNumber, pageSize); 
     }
 }
 }

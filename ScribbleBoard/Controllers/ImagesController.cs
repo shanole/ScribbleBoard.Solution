@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Security;
-using X.PagedList;
+// using X.PagedList;
 
 namespace ScribbleBoard.Controllers
 {
@@ -23,22 +23,12 @@ namespace ScribbleBoard.Controllers
       _userManager = userManager;
     }
     [AllowAnonymous]
-    // you have to install PagedList.mvc
-    // this will take pageSize and pageNumber parameters
-    // public ActionResult Index()
-    // {
-    //   // this will take pageSize and pageNumber parameters
-    //   var allImages = Image.GetAll();
-    //   // and then it will return a PagedList which has .PageCount and .PageNumber properties
-    //   return View(allImages);
-    // }
     public ActionResult Index(int? page)
     {
-      // this will take pageSize and pageNumber parameters
       int pageNumber = (page ?? 1);
-      var allImages = Image.GetAll(1,30);
+      var allImages = Image.GetAll(pageNumber,9);
       // and then it will return a PagedList which has .PageCount and .PageNumber properties
-      return View(allImages.ToPagedList(pageNumber, 6));
+      return View(allImages);
     }
     public IActionResult Create()
     {

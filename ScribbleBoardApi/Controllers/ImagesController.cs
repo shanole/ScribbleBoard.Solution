@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ScribbleBoardApi.Models; 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ScribbleBoardApi.Wrappers;
 
 namespace ScribbleBoardApi.Controllers
 {
@@ -117,7 +118,6 @@ namespace ScribbleBoardApi.Controllers
     }
     // pagination experiment
     [HttpGet]
-    // [Route("[action]")]
     public async Task<IActionResult> Get([FromQuery] PaginationFilter filter)
     {
       var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.UserName);
@@ -126,24 +126,10 @@ namespace ScribbleBoardApi.Controllers
       {
         query = query.Where(e => e.UserName == validFilter.UserName);
       }
-      // var data = await query.Skip((validFilter.PageNumber-1) * validFilter.PageSize)
-      //                       .Take(validFilter.PageSize).ToListAsync();
-
-      // var data = query.Skip((validFilter.PageNumber-1) * validFilter.PageSize)
-      //                       .Take(validFilter.PageSize);
-      // returns a PagedList
-      var pagedData = await PagedList<Image>.ToPagedListAsync(query, filter.PageNumber, filter.PageSize);
-      var metadata = new
-      {
-        pagedData.TotalCount,
-        pagedData.PageSize,
-        pagedData.CurrentPage,
-        pagedData.TotalPages,
-        pagedData.HasNext,
-        pagedData.HasPrevious
-      };
-      Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-      return Ok(pagedData);
+      //// USING PAGEDRESPONSE WRAPPER
+      var totalRecords = query.Count();
+      var images = await query.Skip((validFilter.PageNumber - 1) * validFilter.PageSize).Take(validFilter.PageSize).ToListAsync();
+      return Ok(new PagedResponse<List<Image>>(images, totalRecords, validFilter.PageNumber, validFilter.PageSize));
     }
   }
 }

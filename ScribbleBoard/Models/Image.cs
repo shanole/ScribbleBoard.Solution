@@ -12,19 +12,18 @@ namespace ScribbleBoard.Models
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; }
-    // public virtual ApplicationUser User { get; set; }
     public string UserId {get; set;}
     public string UserName {get; set;}
-    // this will have parameters for pageSize, pageNumber
     public static List<Image> GetAll(int pageNumber, int pageSize)
     {
-      // this will also have parameters for pageSize, pageNumber
       var apiCallTask = ApiHelper.GetAllImages(pageNumber, pageSize);
       var result = apiCallTask.Result;
 
-      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse.ToString());
-      return imagesList;
+      JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
+      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse["data"].ToString());
+      int count = JsonConvert.DeserializeObject<int>(jsonResponse["totalRecords"].ToString());
+      PagedList<Image> pagedImagesList = new PagedList<Image>(imagesList, count, pageNumber, pageSize);
+      return pagedImagesList;
     }
     public static Image GetDetails(int id)
     {

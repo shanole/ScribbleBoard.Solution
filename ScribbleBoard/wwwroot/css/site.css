@@ -12,12 +12,75 @@ a {
   color: #0366d6;
 }
 
-.flexParent {
+.flexBox {
   display: flex;
+  flex-wrap: wrap;
 }
 
-.flexChild {
-  flex-shrink: 100px;
+.flexBox > div {
+  background-color: #ffffff;
+  border-radius: 15px;  
+  width: 350px;
+  height: auto;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 15px;
+   border: 2px solid grey;
+}
+
+.detailsPage {
+  background-color: #ffffff;
+  border-radius: 15px;  
+  width: 620px;
+  height: 420px;
+  margin: 0px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 15px;
+  border: 2px solid grey;
+}
+
+img {
+  width: 50%;
+  height: auto;
+}
+
+.detailsPage img {
+ width: 600px;
+ height: 400px; 
+}
+
+.navbar-brand a {
+	cursor: pointer;
+	color: #0088cc;
+}
+
+.navbar-brand a:hover {
+	text-decoration: underline;
+	text-transform: uppercase;
+}
+
+.customAnchor a {
+	cursor: pointer;
+	color: #87cc;
+}
+
+.customAnchor a:hover {
+	text-decoration: underline;
+	text-transform: uppercase;
+}
+
+/* .aTag {
+	margin:auto;
+	width: 100%;
+	text-align: right;
+} */
+
+.container {
+  padding: 0px;
+  margin-right:auto;
+  margin-left:auto;
 }
 
 .btn-primary {
@@ -31,6 +94,17 @@ a {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.nav-item
+{
+  display: flex;
+  padding: 0 10px;
+}
+
+.nav-item li:nth-child(1) {
+  padding-left: 10px;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */

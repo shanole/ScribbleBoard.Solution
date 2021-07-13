@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScribbleBoardApi.Models; 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ScribbleBoardApi.Controllers
 {
@@ -124,10 +126,23 @@ namespace ScribbleBoardApi.Controllers
       {
         query = query.Where(e => e.UserName == validFilter.UserName);
       }
-      var pagedData = await query.Skip((validFilter.PageNumber-1) * validFilter.PageSize)
-                            .Take(validFilter.PageSize)
-                            .ToListAsync();
-      // returns a List
+      // var data = await query.Skip((validFilter.PageNumber-1) * validFilter.PageSize)
+      //                       .Take(validFilter.PageSize).ToListAsync();
+
+      // var data = query.Skip((validFilter.PageNumber-1) * validFilter.PageSize)
+      //                       .Take(validFilter.PageSize);
+      // returns a PagedList
+      var pagedData = await PagedList<Image>.ToPagedListAsync(query, filter.PageNumber, filter.PageSize);
+      var metadata = new
+      {
+        pagedData.TotalCount,
+        pagedData.PageSize,
+        pagedData.CurrentPage,
+        pagedData.TotalPages,
+        pagedData.HasNext,
+        pagedData.HasPrevious
+      };
+      Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
       return Ok(pagedData);
     }
   }

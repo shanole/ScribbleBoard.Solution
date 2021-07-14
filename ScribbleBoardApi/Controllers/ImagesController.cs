@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ScribbleBoardApi.Models;
+using ScribbleBoardApi.Models; 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ScribbleBoardApi.Wrappers;
 
 namespace ScribbleBoardApi.Controllers
 {
@@ -20,18 +23,18 @@ namespace ScribbleBoardApi.Controllers
       _db = db;
     }
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Image>>> Get(string userId, string userName)
+    public async Task<IActionResult> Get([FromQuery] PaginationFilter filter)
     {
+      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.UserName);
       var query = _db.Images.AsQueryable();
-      if (userId != null)
+      if (validFilter.UserName != null)
       {
-        query = query.Where(e => e.UserId == userId);
+        query = query.Where(e => e.UserName == validFilter.UserName);
       }
-      if (userName != null)
-      {
-        query = query.Where(e => e.UserName == userName);
-      }
-      return await query.ToListAsync();
+      //// USING PAGEDRESPONSE WRAPPER
+      var totalRecords = query.Count();
+      var images = await query.Skip((validFilter.PageNumber - 1) * validFilter.PageSize).Take(validFilter.PageSize).ToListAsync();
+      return Ok(new PagedResponse<List<Image>>(images, totalRecords, validFilter.PageNumber, validFilter.PageSize));
     }
     [HttpPost]
     public async Task<ActionResult<Image>> Post(Image image)
@@ -41,14 +44,15 @@ namespace ScribbleBoardApi.Controllers
       return CreatedAtAction(nameof(GetImage), new {id = image.ImageId}, image);
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Image>> GetImage(int id)
+    public async Task<IActionResult> GetImage(int id)
     {
       Image img = await _db.Images.FindAsync(id);
       if (img == null)
       {
         return NotFound();
       }
-      return img;
+      // maybe also put this in a wrapper?
+      return Ok(new Response<Image>(img));
     }
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Image image)
@@ -113,5 +117,6 @@ namespace ScribbleBoardApi.Controllers
     {
       return _db.Images.Any(e => e.ImageId == id);
     }
+
   }
 }

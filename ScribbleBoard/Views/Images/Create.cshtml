@@ -1,5 +1,5 @@
 @{
-  Layout = "_Layout";
+    ViewData["Title"] = "Create new";
 }
 
 <head>
@@ -7,7 +7,6 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <style type="text/css">
     body {
-      margin: 0px;
       justify-content: center;
     }
 
@@ -70,7 +69,7 @@
 
   </style>
 </head>
-  <h2>Draw new scribble</h2>
+  <h2><img src="~/img/scribble.gif" class="icon"/> Draw new scribble</h2>
   <div class="field">
     <canvas id="canvas"></canvas>
     <div class="tools">
@@ -98,7 +97,7 @@
         <br>
         <input type="submit" id="btnDownload" class="btn btn-success" required="true" />
         }
-        <hr/>
+        <br/>
         <p>@Html.ActionLink("Back to all scribbles", "Index")</p>
     </div>
 

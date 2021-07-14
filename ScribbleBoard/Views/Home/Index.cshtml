@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
 
@@ -17,7 +17,7 @@
     }
     else
     {
-        <p><img src="~/img/smile.gif" class="icon"/> @Html.ActionLink("Manage your account","Index","Account")</p>
+        <p><img src="~/img/smile.gif" class="icon"/> @Html.ActionLink("Manage your account","Index","Account") - you are currently logged in as @User.Identity.Name</p>
         @using (Html.BeginForm("LogOff", "Account"))
         {
             <input type="submit" class="btn btn-primary" value="Log out" />

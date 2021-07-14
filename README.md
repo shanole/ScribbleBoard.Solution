@@ -117,8 +117,8 @@ _There are currently no known bugs._
 
 ## Further Exploration
 * JWT authorization
-* API pagination
 * Hosting
+* Tags, comments, more user profile features
 
 ## Support and contact details
 

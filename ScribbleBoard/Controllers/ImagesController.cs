@@ -1,15 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using ScribbleBoard.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using System.Security;
 
 namespace ScribbleBoard.Controllers
 {
@@ -22,9 +16,10 @@ namespace ScribbleBoard.Controllers
       _userManager = userManager;
     }
     [AllowAnonymous]
-    public ActionResult Index()
+    public ActionResult Index(int? page)
     {
-      var allImages = Image.GetAll();
+      int pageNumber = (page ?? 1);
+      var allImages = Image.GetAll(pageNumber,9, null);
       return View(allImages);
     }
     public IActionResult Create()
@@ -89,12 +84,12 @@ namespace ScribbleBoard.Controllers
       Image.Put(image);
       return RedirectToAction("Details", id);
     }
-    // create custom uri
     [AllowAnonymous]
     [Route("/profiles/{user}")]
-    public IActionResult UserGallery(string user)
+    public IActionResult UserGallery(int? page, string user)
     {
-      var userImages = Image.GetImagesByUser(user);
+      int pageNumber = (page ?? 1);
+      var userImages = Image.GetAll(pageNumber, 9, user);
       ViewBag.UserName = user;
       return View(userImages);
     }

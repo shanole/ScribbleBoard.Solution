@@ -12,17 +12,18 @@ namespace ScribbleBoard.Models
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; }
-    // public virtual ApplicationUser User { get; set; }
     public string UserId {get; set;}
     public string UserName {get; set;}
-    public static List<Image> GetAll()
+    public static List<Image> GetAll(int pageNumber, int pageSize, string userName)
     {
-      var apiCallTask = ApiHelper.GetAllImages();
+      var apiCallTask = ApiHelper.GetAllImages(pageNumber, pageSize, userName);
       var result = apiCallTask.Result;
 
-      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse.ToString());
-      return imagesList;
+      JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
+      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse["data"].ToString());
+      int count = JsonConvert.DeserializeObject<int>(jsonResponse["totalRecords"].ToString());
+      PagedList<Image> pagedImagesList = new PagedList<Image>(imagesList, count, pageNumber, pageSize);
+      return pagedImagesList;
     }
     public static Image GetDetails(int id)
     {
@@ -30,7 +31,7 @@ namespace ScribbleBoard.Models
       var result = apiCallTask.Result;
 
       JObject jsonResponse = JsonConvert.DeserializeObject<JObject>(result);
-      Image thisImage = JsonConvert.DeserializeObject<Image>(jsonResponse.ToString());
+      Image thisImage = JsonConvert.DeserializeObject<Image>(jsonResponse["data"].ToString());
       return thisImage;
     }
     public static void Post(Image image)
@@ -47,14 +48,5 @@ namespace ScribbleBoard.Models
     {
       var apiCallTask = ApiHelper.DeleteImage(id);
     }
-    public static List<Image> GetImagesByUser(string userName)
-    {
-      var apiCallTask = ApiHelper.GetImagesByUser(userName);
-      var result = apiCallTask.Result;
-
-      JArray jsonResponse = JsonConvert.DeserializeObject<JArray>(result);
-      List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(jsonResponse.ToString());
-      return imagesList;
-    } 
   }
 }

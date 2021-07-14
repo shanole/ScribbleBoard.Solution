@@ -142,13 +142,13 @@ __Images__
 | Route                         | Usage                  |   
 |-------------------------------|------------------------|
 | GET /api/Images               | Return all Images      | 
-| <span style="color:blue">POST /api/Images</span>              | Create new image       |
+| :lock: POST /api/Images              | Create new image       |
 | GET /api/Images/{id}          | Return image by id     |
-| <span style="color:blue">PUT /api/Images/{id}</span>          | Edit image by id       |
-| <span style="color:blue">DELETE /api/Images/{id}</span>       | Delete image by id     |
-| <span style="color:blue">POST /api/Images/UploadDirect</span> | Posts an image uploaded directly from local files |
+| :lock: PUT /api/Images/{id}          | Edit image by id       |
+| :lock: DELETE /api/Images/{id}       | Delete image by id     |
+| :lock: POST /api/Images/UploadDirect | Posts an image uploaded directly from local files |
 
-<span style="color:blue">Blue routes</span> = require authorization
+:lock: = require authorization
 
 _Path Parameters_
 Explanation of parameters for GET /api/Images:

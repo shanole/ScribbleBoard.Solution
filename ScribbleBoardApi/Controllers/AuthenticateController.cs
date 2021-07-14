@@ -60,6 +60,7 @@ namespace ScribbleBoardApi.Controllers
   
                 return Ok(new  
                 {  
+                    status = "Success",
                     token = new JwtSecurityTokenHandler().WriteToken(token),  
                     expiration = token.ValidTo  
                 });  
@@ -87,6 +88,5 @@ namespace ScribbleBoardApi.Controllers
   
             return Ok(new AuthResponse { Status = "Success", Message = "User created successfully!" });  
         }  
-  
     }  
 }  

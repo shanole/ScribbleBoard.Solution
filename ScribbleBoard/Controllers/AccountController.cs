@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using ScribbleBoard.Models;
 using System.Threading.Tasks;
 using ScribbleBoard.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace ScribbleBoard.Controllers
 {
@@ -30,12 +32,10 @@ namespace ScribbleBoard.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register (RegisterViewModel model)
+        public IActionResult Register (RegisterViewModel model)
         {
-            // adding UserName property
-            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            var result = RegisterViewModel.Register(model);
+            if (result == "Success")
             {
                 return RedirectToAction("Index");
             }
@@ -51,19 +51,29 @@ namespace ScribbleBoard.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public IActionResult Login(LoginViewModel model)
         {
-          ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
-          string loginUser = user.UserName; 
-            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(loginUser, model.Password, isPersistent: true, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index");
-            }
-            else
+        //   ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
+        //   string loginUser = user.UserName; 
+        //     Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(loginUser, model.Password, isPersistent: true, lockoutOnFailure: false);
+        //     if (result.Succeeded)
+        //     {
+        //         return RedirectToAction("Index");
+        //     }
+        //     else
+        //     {
+        //         return View();
+        //     }
+            string loginResult = LoginViewModel.Login(model);
+            if (loginResult == "Error")
             {
                 return View();
             }
+            else
+            {
+                SetJwtCookie(loginResult);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -72,6 +82,15 @@ namespace ScribbleBoard.Controllers
             await _signInManager.SignOutAsync();
             // maybe create a LogOff confirmed page?
             return NoContent();
+        }
+        private void SetJwtCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddHours(3)
+            };
+            Response.Cookies.Append("jwtCookie", token, cookieOptions);
         }
     }
 }

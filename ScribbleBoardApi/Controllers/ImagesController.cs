@@ -40,6 +40,7 @@ namespace ScribbleBoardApi.Controllers
     [HttpPost]
     public async Task<ActionResult<Image>> Post(Image image)
     {
+      // add username and userid here
       _db.Images.Add(image);
       await _db.SaveChangesAsync();
       return CreatedAtAction(nameof(GetImage), new {id = image.ImageId}, image);
@@ -63,6 +64,7 @@ namespace ScribbleBoardApi.Controllers
       {
         return BadRequest();
       }
+      // add username and userid here
       _db.Entry(image).State = EntityState.Modified;
       try
       {

@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ScribbleBoardApi.Models; 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ScribbleBoardApi.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ScribbleBoardApi.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("api/[controller]")]
   public class ImagesController : ControllerBase
@@ -22,6 +22,7 @@ namespace ScribbleBoardApi.Controllers
     {
       _db = db;
     }
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] PaginationFilter filter)
     {
@@ -39,10 +40,12 @@ namespace ScribbleBoardApi.Controllers
     [HttpPost]
     public async Task<ActionResult<Image>> Post(Image image)
     {
+      // add username and userid here
       _db.Images.Add(image);
       await _db.SaveChangesAsync();
       return CreatedAtAction(nameof(GetImage), new {id = image.ImageId}, image);
     }
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetImage(int id)
     {
@@ -61,6 +64,7 @@ namespace ScribbleBoardApi.Controllers
       {
         return BadRequest();
       }
+      // add username and userid here
       _db.Entry(image).State = EntityState.Modified;
       try
       {

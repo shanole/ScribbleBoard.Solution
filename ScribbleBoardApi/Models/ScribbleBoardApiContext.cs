@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using ScribbleBoardApi.Authentication;
 
 namespace ScribbleBoardApi.Models
 {
-  public class ScribbleBoardApiContext : DbContext
+  public class ScribbleBoardApiContext : IdentityDbContext<ApplicationUser>
   {
     public ScribbleBoardApiContext(DbContextOptions<ScribbleBoardApiContext> options) : base(options)
     {
@@ -12,6 +14,7 @@ namespace ScribbleBoardApi.Models
     public DbSet<Image> Images {get; set;}
     protected override void OnModelCreating(ModelBuilder builder)
     {
+      base.OnModelCreating(builder);
       builder.Entity<Image>()
         .HasData( new Image { ImageId = 1, Title = "Sample Image One", Description = "first seeded image", CreatedAt = new DateTime(2021, 7, 11),
         UserId ="000", UserName="dBSeed",

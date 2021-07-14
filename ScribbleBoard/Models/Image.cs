@@ -34,19 +34,19 @@ namespace ScribbleBoard.Models
       Image thisImage = JsonConvert.DeserializeObject<Image>(jsonResponse["data"].ToString());
       return thisImage;
     }
-    public static void Post(Image image)
+    public static void Post(Image image, string token)
     {
       string jsonImage = JsonConvert.SerializeObject(image);
-      var apiCallTask = ApiHelper.PostImage(jsonImage);
+      var apiCallTask = ApiHelper.PostImage(jsonImage, token);
     }
-    public static void Put(Image image)
+    public static void Put(Image image, string token)
     {
       string jsonImage = JsonConvert.SerializeObject(image);
-      var apiCallTask = ApiHelper.PutImage(image.ImageId, jsonImage);
+      var apiCallTask = ApiHelper.PutImage(image.ImageId, jsonImage, token);
     }
-    public static void Delete(int id)
+    public static void Delete(int id, string token)
     {
-      var apiCallTask = ApiHelper.DeleteImage(id);
+      var apiCallTask = ApiHelper.DeleteImage(id, token);
     }
   }
 }

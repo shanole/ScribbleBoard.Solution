@@ -33,7 +33,9 @@ namespace ScribbleBoard.Controllers
       var currentUser = await _userManager.FindByIdAsync(userId);
       image.UserName = currentUser.UserName;
       image.UserId = userId;
-      Image.Post(image);
+
+      var jwt = Request.Cookies["jwtCookie"];
+      Image.Post(image, jwt);
       return RedirectToAction("Index");
     }
     [AllowAnonymous]
@@ -58,7 +60,8 @@ namespace ScribbleBoard.Controllers
     [HttpPost, ActionName("Delete")]
     public IActionResult DeleteConfirmed(int id)
     {
-      Image.Delete(id);
+      var jwt = Request.Cookies["jwtCookie"];
+      Image.Delete(id, jwt);
       return RedirectToAction("Index");
     }
     public IActionResult Edit(int id)
@@ -81,7 +84,8 @@ namespace ScribbleBoard.Controllers
       image.UserName = currentUser.UserName;
       image.UserId = userId;
       image.ImageId = id;
-      Image.Put(image);
+      var jwt = Request.Cookies["jwtCookie"];
+      Image.Put(image, jwt);
       return RedirectToAction("Details", id);
     }
     [AllowAnonymous]

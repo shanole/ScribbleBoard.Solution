@@ -142,11 +142,11 @@ __Images__
 | Route                         | Usage                  |   
 |-------------------------------|------------------------|
 | GET /api/Images               | Return all Images      | 
-| :lock: POST /api/Images              | Create new image       |
+| POST /api/Images :lock:               | Create new image       |
 | GET /api/Images/{id}          | Return image by id     |
-| :lock: PUT /api/Images/{id}          | Edit image by id       |
-| :lock: DELETE /api/Images/{id}       | Delete image by id     |
-| :lock: POST /api/Images/UploadDirect | Posts an image uploaded directly from local files |
+| PUT /api/Images/{id} :lock:          | Edit image by id       |
+| DELETE /api/Images/{id} :lock:       | Delete image by id     |
+| POST /api/Images/UploadDirect :lock:  | Posts an image uploaded directly from local files |
 
 :lock: = require authorization
 

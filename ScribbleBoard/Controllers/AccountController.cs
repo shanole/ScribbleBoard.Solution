@@ -32,11 +32,13 @@ namespace ScribbleBoard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register (RegisterViewModel model)
+        public async Task<IActionResult> Register (RegisterViewModel model)
         {
-            var result = RegisterViewModel.Register(model);
-            if (result == "Success")
+            var user = new ApplicationUser { UserName = model.UserName, Email = model.Email};
+            var apiResult = RegisterViewModel.Register(model);
+            if (apiResult == "Success")
             {
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                 return RedirectToAction("Index");
             }
             else
@@ -51,19 +53,10 @@ namespace ScribbleBoard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-        //   ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
-        //   string loginUser = user.UserName; 
-        //     Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(loginUser, model.Password, isPersistent: true, lockoutOnFailure: false);
-        //     if (result.Succeeded)
-        //     {
-        //         return RedirectToAction("Index");
-        //     }
-        //     else
-        //     {
-        //         return View();
-        //     }
+            ApplicationUser user = await _userManager.FindByNameAsync(model.UserName);
+            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, isPersistent: true, lockoutOnFailure: false);
             string loginResult = LoginViewModel.Login(model);
             if (loginResult == "Error")
             {

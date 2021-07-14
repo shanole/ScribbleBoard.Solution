@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;  
   
-namespace ScribbleBoardApi.Models  
+namespace ScribbleBoardApi.Authentication  
 {  
     public class ApplicationUser : IdentityUser  
     {  

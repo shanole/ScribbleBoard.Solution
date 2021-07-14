@@ -14,7 +14,7 @@
   @Html.LabelFor(user => user.Email)
   @Html.TextBoxFor(user => user.Email, new {@class = "form-control"})
 
-  @Html.LabelFor(user => user.UserName)
+  @Html.Label("Username")
   @Html.TextBoxFor(user => user.UserName, new {@class = "form-control"})
 
   @Html.LabelFor(user => user.Password)
@@ -27,4 +27,5 @@
 }
 <hr />
 <p>Already have an account? @Html.ActionLink("Log in here","Log in")</p>
+<p>@Html.ActionLink("Home","Index","Home")</p>
 

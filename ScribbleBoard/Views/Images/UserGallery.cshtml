@@ -52,3 +52,4 @@
   </ul>
 </nav>
 <p>Page @(Model.TotalPages < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.TotalPages</p>
+<p>@Html.ActionLink("Return to all images", "Index")</p>

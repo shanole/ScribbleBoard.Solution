@@ -20,7 +20,27 @@
         <p><img src="~/img/smile.gif" class="icon"/> @Html.ActionLink("Manage your account","Index","Account") - you are currently logged in as @User.Identity.Name</p>
         @using (Html.BeginForm("LogOff", "Account"))
         {
-            <input type="submit" class="btn btn-primary" value="Log out" />
+            <input type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary" value="Log out" />
         }
     }
+</div>
+
+
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Log Off</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>You have logged off</p>
+      </div>
+      <div class="modal-footer">
+        <input type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Home")'" value="Close" />
+      </div>
+    </div>
+  </div>
 </div>

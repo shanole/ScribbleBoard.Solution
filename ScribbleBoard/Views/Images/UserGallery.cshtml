@@ -24,8 +24,6 @@
 
 </div>
 
-Page @(Model.TotalPages < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.TotalPages
-
 <nav aria-label="Page navigation example">
   <ul class="pagination">
 
@@ -53,3 +51,4 @@ Page @(Model.TotalPages < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.T
     }
   </ul>
 </nav>
+<p>Page @(Model.TotalPages < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.TotalPages</p>

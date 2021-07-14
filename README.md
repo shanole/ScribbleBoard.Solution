@@ -1,5 +1,4 @@
-![banner.gif](ScribbleBoard.Solution/ScribbleBoard/wwwroot/img/banner.gif)
-
+![banner](./ScribbleBoard/wwwroot/img/banner.gif "ScribbleBoard Banner")
 
 # _Scribble Board_
 

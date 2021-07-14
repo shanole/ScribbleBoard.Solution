@@ -12,7 +12,7 @@
 ## Description
 Scribble Board is a program that allows users to draw simple pictures, using their cursor as a drawing point. They can use several different colors, making pixel art reminiscent of Microsoft Paint.
 
-Users can then save and display their images, along with data such as title and description. The images are stored via a custom API, and users are only allowed to access edit or delete functions for pictures they create (however, users will be able to see all images from all users).
+Users can then save and display their images, along with data such as title and description. The images are stored via a custom API, and users are only allowed to access edit or delete functions for pictures they create (however, users will be able to see all images from all users). The ScribbleBoard API utilizes Json Web Tokens for authentication and authorization.
 
 
 <details>
@@ -137,17 +137,20 @@ Basic URL: `https://localhost:2001`
 
 HTTP Request Structure (add after Basic URL)
 
+__Images__
 
 | Route                         | Usage                  |   
 |-------------------------------|------------------------|
 | GET /api/Images               | Return all Images      | 
-| POST /api/Images              | Create new image       |
+| <span style="color:blue">POST /api/Images</span>              | Create new image       |
 | GET /api/Images/{id}          | Return image by id     |
-| PUT /api/Images/{id}          | Edit image by id       |
-| DELETE /api/Images/{id}       | Delete image by id     |
-| POST /api/Images/UploadDirect | Posts an image uploaded directly from local files |
+| <span style="color:blue">PUT /api/Images/{id}</span>          | Edit image by id       |
+| <span style="color:blue">DELETE /api/Images/{id}</span>       | Delete image by id     |
+| <span style="color:blue">POST /api/Images/UploadDirect</span> | Posts an image uploaded directly from local files |
 
-### Path Parameters
+<span style="color:blue">Blue routes</span> = require authorization
+
+_Path Parameters_
 Explanation of parameters for GET /api/Images:
 
 
@@ -156,6 +159,13 @@ Explanation of parameters for GET /api/Images:
 | PageNumber      | no       | int |  Page of API requested. By default and at minimum, PageNumber = 1                |
 | PageSize   | no       | int | Number of entries returned per page. By default and at maximum, PageSize = 24 |
 | UserName       | no       | string | Returns images that have been created by User with given UserName.|
+
+
+__Authenticate__
+| Route                         | Usage                  |   
+|-------------------------------|------------------------|
+| POST /api/authenticate/register               | Creates a new User      | 
+| POST /api/authenticate/login              | Returns a JWT when valid login credentials are provided       |
 
 
 
@@ -187,7 +197,7 @@ _There are currently no known bugs._
 
 ## Further Exploration
 This is an active program. The team wants to update this program, and experiment with new features, such as:
-* JWT authorization
+* Refining JWT authorization (adding token refresh, organizing code better)
 * Hosting
 * Tags, comments, more user profile features
 

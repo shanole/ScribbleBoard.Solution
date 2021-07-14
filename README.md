@@ -1,7 +1,10 @@
+![banner.gif](ScribbleBoard.Solution/ScribbleBoard/wwwroot/img/banner.gif)
+
+
 # _Scribble Board_
 
 * _Date Created: July 5th 2021_
-* _Last Updated: July 12th 2021_
+* _Last Updated: July 13th 2021_
 
 #### By _Garrett Brown, Shannon Lee, Salim Mayan_
 
@@ -40,22 +43,33 @@ Users can then save and display their images, along with data such as title and 
 
 <details>
     <summary>Installation of Program</summary>
-    
+
 1. Open the terminal on your local machine and navigate to "Desktop."
 2. Clone "ScribbleBoard.Solution" with the following git command `git clone https://github.com/shanole/ScribbleBoard.Solution`
 3. Navigate to the top level of the repository with the command `cd ScribbleBoard.Solution`
-4. Navigate into "ScribbleBoard" with git command `cd ScribbleBoard`
 
 </details>
 
 <details>
     <summary>Startup</summary>
 
-1. Navigate to root directory in project.
-2. Restore project with git command `dotnet restore`
-3. Build project with git command `dotnet build`
-4. To run program, run git command `dotnet run`
-5. In browser, navigate to http://localhost:5000 
+#### Scribble Board Installation
+1. Navigate to the top level of the repository with the command `cd ScribbleBoard.Solution`
+2. Navigate into "ScribbleBoard" with git command `cd ScribbleBoard`
+3. Navigate to root directory in project.
+4. Restore project with git command `dotnet restore`
+5. Build project with git command `dotnet build`
+6. To run program, run git command `dotnet run`
+7. In browser, navigate to http://localhost:5000 
+
+#### Scribble Board API Installation
+1. Navigate to the top level of the repository with the command `cd ScribbleBoard.Solution`
+2. Navigate into "ScribbleBoardApi" with git command `cd ScribbleBoardApi`
+3. Navigate to root directory in project.
+4. Restore project with git command `dotnet restore`
+5. Build project with git command `dotnet build`
+6. To run program, run git command `dotnet run`
+7. In browser, navigate to http://localhost:2000 
 
 </details>
 
@@ -64,29 +78,33 @@ Users can then save and display their images, along with data such as title and 
     
 #### ScribbleBoard `appsettings.json` Creation
 
-1. Create a file in the root directory called `appsettings.json`. 
-2. Add `appsettings.json` to `.gitignore`.
-3. Insert the following code into `appsettings.json`:
+1. Navigate to the top level of the repository with the command `cd ScribbleBoard.Solution`
+2. Navigate into "ScribbleBoard" with git command `cd ScribbleBoard`
+3. Create a file in the root directory called `appsettings.json`. 
+4. Add `appsettings.json` to `.gitignore`.
+5. Insert the following code into `appsettings.json`:
     
 ``` 
 {
     "ConnectionStrings": {
-        "DefaultConnection": "Server=localhost;Port=3306;database=scribbleboard_clientE;uid=root;pwd=YOUR-PASSWORD;"
+        "DefaultConnection": "Server=localhost;Port=3306;database=scribbleboard_client;uid=root;pwd=YOUR-PASSWORD;"
     }
 }
 ```
 
-4. Replace `YOUR-PASSWORD` with password you selected when installing MySQLWorkbench.
-5. In the root directory, run `dotnet ef database update` 
-6. In the root directory, run `dotnet ef database restore`
+5. Replace `YOUR-PASSWORD` with password you selected when installing MySQLWorkbench.
+6. In the root directory, run `dotnet ef database update` 
+7. In the root directory, run `dotnet ef database restore`
 
 This will recreate the database on your computer, using MySQLWorkbench. 
 
 #### ScribbleBoardAPI `appsettings.json` Creation
 
-1. Create a file in the root directory called `appsettings.json`. 
-2. Add `appsettings.json` to `.gitignore`.
-3. Insert the following code into `appsettings.json`:
+1. Navigate to the top level of the repository with the command `cd ScribbleBoard.Solution`
+2. Navigate into "ScribbleBoardApi" with git command `cd ScribbleBoardApi`
+3. Create a file in the root directory called `appsettings.json`. 
+4. Add `appsettings.json` to `.gitignore`.
+5. Insert the following code into `appsettings.json`:
 
 ```
 {
@@ -104,11 +122,64 @@ This will recreate the database on your computer, using MySQLWorkbench.
 }
 ```
 
-4. Replace `YOUR-PASSWORD` with password you selected when installing MySQLWorkbench.
-5. In the root directory, run `dotnet ef database update` 
-6. In the root directory, run `dotnet ef database restore`
+6. Replace `YOUR-PASSWORD` with password you selected when installing MySQLWorkbench.
+7. In the root directory, run `dotnet ef database update` 
+8. In the root directory, run `dotnet ef database restore`
 
 </details>
+
+## API Exploration
+### Swagger
+To explore ScribbleBoardApi with Swagger - Swashbuckle, go to your program directory and launch the program with `dotnet run`. Once the program is running, open a browser window and go to `https://localhost:2001/swagger`, and you will be able to navigate and have full CRUD functionality.
+
+### Endpoints
+
+Basic URL: `https://localhost:2001`
+
+HTTP Request Structure (add after Basic URL)
+
+
+| Route                         | Usage                  |   
+|-------------------------------|------------------------|
+| GET /api/Images               | Return all Images      | 
+| POST /api/Images              | Create new image       |
+| GET /api/Images/{id}          | Return image by id     |
+| PUT /api/Images/{id}          | Edit image by id       |
+| DELETE /api/Images/{id}       | Delete image by id     |
+| POST /api/Images/UploadDirect | Posts an image uploaded directly from local files |
+
+### Path Parameters
+Explanation of parameters for GET /api/Images:
+
+
+| Parameter | Required? | Type   | Description                                |
+|-----------|-----------|--------|--------------------------------------------|
+| PageNumber      | no       | int |  Page of API requested. By default and at minimum, PageNumber = 1                |
+| PageSize   | no       | int | Number of entries returned per page. By default and at maximum, PageSize = 24 |
+| UserName       | no       | string | Returns images that have been created by User with given UserName.|
+
+
+
+### Searching via Parameters
+In order to search for Images matching a parameter, use this format:
+
+```
+GET /api/Images?{parameter}={search-term}
+```
+
+#### Example:
+```
+https://localhost:2001/api/Images?PageNumber=1
+```
+
+In order to search for a specific image matching multiple parameters, add a `&` between searches:
+
+#### Example:
+```
+https://localhost:2001/api/Images?PageNumber=1&PageSize=9
+```
+
+*** 
 
 
 ## Known Bugs
@@ -116,6 +187,7 @@ This will recreate the database on your computer, using MySQLWorkbench.
 _There are currently no known bugs._
 
 ## Further Exploration
+This is an active program. The team wants to update this program, and experiment with new features, such as:
 * JWT authorization
 * Hosting
 * Tags, comments, more user profile features
@@ -154,6 +226,7 @@ _For assistance, please contact:_
 * _ASP.NET Core MVC_
 * _ASP.NET Core Razor Pages_
 * _RestSharp_
+* _Procreate_
 
 </details>
 

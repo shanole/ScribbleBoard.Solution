@@ -117,6 +117,11 @@ This will recreate the database on your computer, using MySQLWorkbench.
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Port=3306;database=scribbleboard_api;uid=root;pwd=YOUR-PASSWORD;"
+  },
+    "JWT": {  
+    "ValidAudience": "https://localhost:5001",  
+    "ValidIssuer": "https://localhost:2001",  
+    "Secret": "<YOUR-SECRET-KEY-HERE>"  
   }
 }
 ```

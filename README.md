@@ -116,7 +116,7 @@ This will recreate the database on your computer, using MySQLWorkbench.
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Port=3306;database=scribbleboard_api;uid=root;pwd=YOUR-PASSWORD;"
+    "DefaultConnection": "Server=localhost;Port=3306;database=scribbleboard_api;uid=root;pwd=<YOUR-PASSWORD>;"
   },
     "JWT": {  
     "ValidAudience": "https://localhost:5001",  
@@ -126,9 +126,10 @@ This will recreate the database on your computer, using MySQLWorkbench.
 }
 ```
 
-6. Replace `YOUR-PASSWORD` with password you selected when installing MySQLWorkbench.
-7. In the root directory, run `dotnet ef database update` 
-8. In the root directory, run `dotnet ef database restore`
+6. Replace `<YOUR-PASSWORD?` with password you selected when installing MySQLWorkbench.
+7. Replace `<YOUR-SECRET-KEY-HERE>` with your secret key. Using HSA 256 encryption, your secret key should be at least 32 characters long.
+8. In the root directory, run `dotnet ef database update` 
+9. In the root directory, run `dotnet ef database restore`
 
 </details>
 

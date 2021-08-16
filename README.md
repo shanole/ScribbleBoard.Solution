@@ -14,6 +14,7 @@ Scribble Board is a program that allows users to draw simple pictures, using the
 
 Users can then save and display their images, along with data such as title and description. The images are stored via a custom API, and users are only allowed to access edit or delete functions for pictures they create (however, users will be able to see all images from all users). The ScribbleBoard API utilizes Json Web Tokens for authentication and authorization.
 
+[Video demo](https://www.youtube.com/watch?v=3ioiBlga1xY)
 
 <details>
     <summary><span style="color:red"><strong>Expand to Read User Stories</strong></summary>
